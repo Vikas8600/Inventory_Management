@@ -26,5 +26,4 @@ class ProductMovement(models.Model):
     quantity = models.IntegerField(null=False)
 
 
-    # def __str__(self):
-    #     return '{} - {} : ID = {}'.format(self.from_location, self.to_location, self.movement_id)
+  
