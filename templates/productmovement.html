@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load static  %}
+{% block table %}
+    <form id="addmov" method="post" action="#" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+        <div class="col col-lg-2"><input type="hidden" value="{{ key.check }}" name="check">
+            <label for="movement_id">Movement_id</label>
+            <input type="number" name="movement_id" class="form-control" id="movement_id" placeholder="Enter movement id" value="{{ update.movement_id }}">
+        </div>
+            <div class="col col-lg-2">
+            <label for="pro_id">Product ID</label>
+            <select id="pro_id" name="pro_id" class="form-control">
+                {% if update %}
+                <option value="{{ update.p_id_id }}" selected>{{ update.p_id }}</option>
+                {% endif %}
+                <option >--Select pro--</option>
+                {% for p in pro %}
+                    <<option value="{{ p.product_id }}">{{ p.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+            <div class="col col-lg-2">
+           <label for="from_loc">From loc</label>
+            <select name="from_loc" class="form-control" id="from_loc">
+                {% if update %}
+                    <option value="{{ update.from_location_id }}" selected>{{ update.from_location }}</option>
+                {% endif %}
+                <option value="0">--select from loc--</option>
+                {% for l in loc %}
+                    <option value="{{ l.location_id }}">{{ l.location }}</option>
+                {% endfor %}
+            </select>
+        </div>
+            <div class="col col-lg-2">
+             <label for="to_location">To location</label>
+            <select id="to_location" name="to_location" class="form-control">
+                {% if update %}
+                    <option value="{{ update.to_location_id }}" selected>{{ update.to_location }}</option>
+                {% endif %}
+                <option value="0">--Select to loc--</option>
+                {% for l in loc %}
+                    <<option value="{{ l.location_id }}">{{ l.location }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col col-lg-2">
+            <label for="p_qty">Product QTY</label>
+            <input type="number" name="p_qty" class="form-control" id="p_qty" placeholder="Enter Pro QTY" value="{{ update.quantity }}">
+        </div>
+        <div class="col col-lg-2 mt-2">
+             <button class="btn btn-primary float-right mt-4" style="margin-left: 90%">Add Movement</button>
+        </div>
+        </div>
+    </form>
+    <h3 class="card-text">Products</h3>
+    <table class="table table-striped table-dark table-bordered" style="text-align: center">
+  <thead>
+    <tr>
+      <th scope="col">Movement ID</th>
+      <th scope="col">Pro Name</th>
+      <th scope="col">Location</th>
+      <th scope="col">QTY</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for loc in record %}
+    <tr>
+      <th>{{ loc.movement_id }}</th>
+      <td>{{ loc.p_id }}</td>
+      <td>{% if loc.from_location %} {{ loc.from_location  }}{% endif %}
+          {% if loc.to_location %}{{ loc.to_location }}{% endif %}</td>
+      <td>{{ loc.quantity }}</td>
+      <td><a href="{% url 'editmovement' %}?id={{ loc.movement_id }}"><img src="{% static 'img/edit.png' %}" width="15px" height="15px"></a></td>
+      <td><a href="{%  url 'deletemovement' %}?id={{ loc.movement_id }}"><img src="{% static 'img/delete.jpg' %}" width="15px" height="15px"></a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+    <script>
+                    $(document).on("submit", "#addmov", function (e) {
+                    e.preventDefault();
+                    var formdata = new FormData();
+                    var data = $('#addmov').serializeArray();
+                    $.each(data ,function (i,input) {
+                        formdata.append(input.name,input.value)
+                    })
+                    formdata.append('csrfmiddlewaretoken', '{{ csrf_token }}')
+                    $.ajax({
+                      type: "POST",
+                      url: "/productmovementsave/",
+                      data: formdata,
+                     contentType: false,
+                     processData: false,
+                      success: function(data) {
+                          if(data.status == 1){
+                          $('form')[0].reset();
+                           window.location.href= "{% url 'productmovement' %}";
+                          }else if(data.status == 0) {
+                              alert("Please Enter Valied QTY")
+                          }else{
+                              alert("Please change ID")
+                          }
+                      }
+                    });
+                });
+    </script>
+    <script>
+        var id = $('#movement_id').val();
+        if(id !=''){
+            $('#movement_id').attr("readonly","readonly")
+        }
+    </script>
+{% endblock %}

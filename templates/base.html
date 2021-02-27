@@ -1,0 +1,61 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+      <style>
+          .error {
+                    color: red;
+                }
+
+      </style>
+          <title>Inventory Management Web Application</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link href="{% static 'css/index.css' %}" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    <script src="{% static 'js/ajax.js' %}"></script>
+    <script src="{% static 'js/validation.js' %}"></script>
+  </head>
+  <body>
+  <header class="header bg-dark text-xl-center"><h1>Inventory Management Web Application</h1></header>
+  <div class="sidebar mt-5">
+      <a href="{% url 'dashboard' %}"><i class="fa fa-fw fa-home"></i> Home</a>
+      <a href="{% url 'location' %}"><i class="fa fa-fw fa-wrench"></i> Location</a>
+      <a href="{% url 'products' %}"><i class="fa fa-fw fa-user"></i> products</a>
+      <a href="{% url 'productmovement' %}"><i class="fa fa-fw fa-envelope"></i> Movement </a>
+      <a href="{% url 'report' %}"><i class="fa fa-fw fa-envelope"></i> Report </a>
+      <a href="{% url 'logout' %}"><i class="fa fa-fw fa-envelope"></i> Logout </a>
+</div>
+
+
+<div class="main mt-2">
+<div class="content">
+      <div class="container-fluid">
+        <div class="row">
+            <h2>Products</h2>
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                {% block table %}
+                    <h1><marquee direction="right">Inventory Management Web Application</marquee></h1>
+
+                {% endblock %}
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </div>
+</div>
+
+  </body>
+</html>

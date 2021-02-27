@@ -1,0 +1,30 @@
+{% load crispy_forms_tags %}
+{% load crispy_forms_tags %}
+{% load static %}
+<head>
+        <link href="{% static 'css/login.css' %}" rel="stylesheet">
+</head>
+  <div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+    <h2 class="text-center">You have successsfully logged out</h2><br>
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <img src="{% static 'img/logout.jfif' %}" id="icon" alt="User Icon" />
+    </div>
+
+    <!-- Login Form -->
+       <h6 class="text-center "><a href="{% url 'login' %}"><input
+    type="submit"
+    value="Login Again"
+    class="btn btn-info btn-danger"
+    type="button"
+/></a></h6>
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+
+    </div>
+
+  </div>
+</div>

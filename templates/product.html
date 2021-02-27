@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static  %}
+{% block table %}
+    <form id="addpro" method="post" action="#" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+        <div class="col col-lg-3"><input type="hidden" value="{{ key.check }}" name="check">
+            <label for="product_id">product_id</label>
+            <input type="text" name="product_id" class="form-control" id="product_id" placeholder="Enter product_id" value="{{ update.product_id }}">
+        </div>
+        <div class="col col-lg-3">
+             <label for="location">Name</label>
+            <input type="text" name="name" class="form-control" id="name" placeholder="Enter name" value="{{ update.name }}">
+        </div>
+        <div class="col col-lg-3">
+            <label for="pro_qty">QTY</label>
+            <input type="number" name="pro_qty" class="form-control" id="pro_qty" placeholder="Enter QTY" value="{{ update.pro_qty }}">
+        </div>
+        <div class="col col-lg-2 mt-2">
+             <button class="btn btn-primary float-right mt-4" style="margin-left: 90%">Add Product</button>
+        </div>
+        </div>
+    </form>
+    <h3 class="card-text">Products</h3>
+    <table class="table table-striped table-dark table-bordered" style="text-align: center">
+  <thead>
+    <tr>
+      <th scope="col">Product ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">QTY</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for loc in record %}
+    <tr>
+      <td>{{ loc.product_id }}</td>
+      <th>{{ loc.name }}</th>
+      <th>{{ loc.pro_qty }}</th>
+      <td><a href="{% url 'editProduct' %}?id={{ loc.product_id }}"><img src="{% static 'img/edit.png' %}" width="15px" height="15px"></a></td>
+      <td><a href="{%  url 'deleteproduct' %}?id={{ loc.product_id }}"><img src="{% static 'img/delete.jpg' %}" width="15px" height="15px"></a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+    <script>
+                    $(document).on("submit", "#addpro", function (e) {
+                    e.preventDefault();
+                    var formdata = new FormData();
+                    var data = $('#addpro').serializeArray();
+                    $.each(data ,function (i,input) {
+                        formdata.append(input.name,input.value)
+                    })
+                    formdata.append('csrfmiddlewaretoken', '{{ csrf_token }}')
+                    $.ajax({
+                      type: "POST",
+                      url: "/save_product/",
+                      data: formdata,
+                     contentType: false,
+                     processData: false,
+                      success: function(data) {
+                          if(data.status==1){
+                              $('form')[0].reset();
+                                window.location.href= "{% url 'products' %}";
+                          }else {
+                              alert("Please change Id")
+                          }
+                      }
+                    });
+                });
+    </script>
+    <script>
+        var id = $('#product_id').val();
+        if(id !=''){
+            $('#product_id').attr("readonly","readonly")
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static  %}
+{% block table %}
+    <div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h1 class="text-center">Report</h1><br>
+        </div>
+        <div class="card-block">
+          <div class="table-responsive">
+          <h4>Total Products QTY</h4>
+          <table class="table table-sm">
+              <thead>
+                <tr>
+                  <td><strong>Product Name</strong></td>
+                  <td class="text-xs-right"><strong>QTY</strong></td>
+                </tr>
+              </thead>
+              <tbody>
+              {% for item in total %}
+                <tr>
+                  <td>{{item.name}}</td>
+                  <td class="text-xs-center">{{ item.pro_qty}}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          <hr>
+          <h4>Location</h4>
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <td><strong>Product Name</strong></td>
+                  <td class="text-xs-center"><strong>Location</strong></td>
+                  <td class="text-xs-right"><strong>QTY</strong></td>
+                </tr>
+              </thead>
+              <tbody>
+              {% for loc in record %}
+                <tr>
+                  <td>{{loc.name}}</td>
+                  <td class="text-xs-center">{{loc.location }}</td>
+                  <td class="text-xs-center">{{ loc.qty}}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
